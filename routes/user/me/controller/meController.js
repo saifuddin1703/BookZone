@@ -5,6 +5,9 @@ module.exports = {
     async getMe(req, res, next) {
         try {
             const user = await User.findById(req.userId);
+            if (!user) {
+                return next(new AppError('User not found', 404));
+            }
             return res.status(200).json({
                 status : 'success',
                 data : user
