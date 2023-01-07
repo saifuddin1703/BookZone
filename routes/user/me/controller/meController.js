@@ -1,4 +1,5 @@
-const {User} = require('../../../../models')
+const {User} = require('../../../../models');
+const AppError = require('../../../../utils/AppError');
 
 
 module.exports = {
