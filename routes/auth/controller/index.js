@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { isEmail, sendEmail } = require('../../../utils');
 const otpGenerator = require('otp-generator');
 const OTP = require('../../../models/OTP');
-const AppError = require('../../../utils/appError');
+const AppError = require('../../../utils/AppError');
 
 function signJWT(userId) {
     return new Promise((resolve, reject) => {
