@@ -2,15 +2,16 @@ const express = require('express');
 const router = express.Router();
 const { authenticate, restrictTo } = require('../auth/middlewares');
 const bookController = require('./controller/bookController');
-
+const upload = require('../../utils/uploadHandler');
 
 router.get('/', authenticate, bookController.getBooks);
 
-router.post('/', authenticate, restrictTo(["admin"]), bookController.createBook);
-
 router.get('/:id', authenticate, bookController.getBook);
 
-router.get('/:category', authenticate, bookController.getBooksByCategory);
+router.post('/', authenticate, restrictTo(['admin']), upload.single('file') ,bookController.createBooks);
 
+router.put('/:id', authenticate, restrictTo(['admin']), bookController.updateBook);
+
+router.delete('/:id', authenticate, restrictTo(['admin']), bookController.deleteBook);
 
 module.exports = router; 

@@ -1,10 +1,24 @@
 const {Book} = require('../../../models');
 const AppError = require('../../../utils/AppError');
+const fs = require('fs');
+const csv = require('csv-parser');
+const fileHandler = require('../../../utils/fileHandler');
+const ApiFeatures = require('../../../utils/ApiFeatures');
 
 module.exports = {
     async getBooks(req, res,next){
         try {
-            const books = await Book.find();
+            
+            const features = new ApiFeatures(Book.find(), req.query);
+
+            features
+                .filter()
+                .sort()
+                .limitFields()
+                .paginate();
+
+            const books = await features.query;
+
             res.status(200).json(
                 {
                     status : 'success',
@@ -12,7 +26,7 @@ module.exports = {
                 }
             );
         } catch (error) {
-            res.status(500).json({error: error.message});
+            next(error);
         }
     },
     async getBook(req, res,next){
@@ -32,8 +46,26 @@ module.exports = {
         }
     },
 
-    async createBook(req, res){
-        res.send('books uploading is not implemented yet')
+    async createBooks(req, res,next){
+        // console.log(req.file)
+
+        if(req.file.mimetype !== 'text/csv'){
+            next(new AppError('File must be csv',400));
+        }
+
+        try{
+            const books = await fileHandler.readCSV(req.file.path);
+            console.log(books[0]);
+            await Book.insertMany(books);
+
+            res.status(200).json({
+                status : 'success',
+                data : "Books uploaded successfully"
+            });
+
+        }catch(error){
+            next(error);
+        }
     },
     
     async updateBook(req, res,next){

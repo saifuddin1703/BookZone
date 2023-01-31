@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bookSchema = new mongoose.Schema({
     image : {
         type : String,
-        required : true
+        required : false
     },
     name : {
         type : String,
@@ -15,11 +15,13 @@ const bookSchema = new mongoose.Schema({
     },
     format : {
         type : String,
-        required : true
+        required : true,
+        default : 'Paperback'
     },
     book_depository_stars : {
         type : Number,
-        required : true
+        required : true,
+        default : 4.5
     },
     price : {
         type : Number,
@@ -29,6 +31,10 @@ const bookSchema = new mongoose.Schema({
         type : String,
         required : true
     },
+    createdAt : {
+        type : Date,
+        default : Date.now
+    }
 });
 
 module.exports = mongoose.model('Book', bookSchema);
