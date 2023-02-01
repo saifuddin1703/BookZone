@@ -57,13 +57,13 @@ module.exports = {
                 return next(new AppError('Invalid username or password',400));
             }
             // checking if the user already exists
-            const user = await User.findOne({ username: req.body.username });
+            const user = await User.findOne({ username: req.body.username }).select('+password');
             if (!user) {
                 return next(new AppError('User not signed up, please signup',400));
             }
 
             // checking if the password is correct
-            const isValid = await user.isValidPassword(req.body.password);
+            const isValid = await user.isValidPassword(req.body.password, user.password);
             if (!isValid) {
                 return next(new AppError('Invalid password',400));
             }

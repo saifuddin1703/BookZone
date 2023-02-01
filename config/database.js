@@ -3,7 +3,14 @@ const mongoose = require('mongoose');
 module.exports = connectDb = async () => {
     try {
       mongoose.set('strictQuery', true);
-      await mongoose.connect(process.env.MONGODB_URL_TEST , {
+
+      let url = process.env.MONGODB_URL_TEST;
+
+      if (process.env.NODE_ENV === 'production') {
+        url = process.env.MONGODB_URL_PROD;
+      }
+
+      await mongoose.connect(url , {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       }); 

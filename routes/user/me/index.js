@@ -4,8 +4,12 @@ const meController = require('./controller/meController');
 const router = express.Router();
 
 router.get('/',authenticate,meController.getMe);
+
 router.delete('/',authenticate,meController.deleteMe);
-router.put('/',authenticate,meController.updateMe);
+
+router.patch('/',authenticate,meController.updateMe);
+
+router.patch('/password',authenticate,meController.updatePassword);
 
 
 module.exports = router;
