@@ -3,7 +3,7 @@ const AppError = require('../../../utils/AppError');
 const fs = require('fs');
 const csv = require('csv-parser');
 const fileHandler = require('../../../utils/fileHandler');
-const ApiFeatures = require('../../../utils/ApiFeatures');
+const ApiFeatures = require('../../../utils/apiFeatures');
 const catchAsync = require('../../../utils/catchAsync');
 
 module.exports = {
