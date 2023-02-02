@@ -28,7 +28,8 @@ module.exports = {
     }),
     getBook : catchAsync(async(req, res,next) => {
             const {id} = req.params;
-            const book = await Book.findById(id)
+            const book = await Book.findById(id);
+            // console.log(book);
             if (book) {
                 return res.status(200).json({
                     status : 'success',
@@ -46,14 +47,14 @@ module.exports = {
             next(new AppError('File must be csv',400));
         }
 
-            const books = await fileHandler.readCSV(req.file.path);
-            console.log(books[0]);
-            await Book.insertMany(books);
+        const books = await fileHandler.readCSV(req.file.path);
+        console.log(books[0]);
+        await Book.insertMany(books);
 
-            res.status(200).json({
-                status : 'success',
-                data : "Books uploaded successfully"
-            });
+        res.status(200).json({
+            status : 'success',
+            data : "Books uploaded successfully"
+        });
     }),
     
     updateBook : catchAsync(async (req, res,next)=>{

@@ -1,5 +1,6 @@
 const {User} = require('../../../../models');
 const AppError = require('../../../../utils/AppError');
+const factory = require('../../../../utils/handlerFactory');
 
 const filterObj = (obj, ...allowedFields) => {
     const newObj = {};
@@ -10,6 +11,11 @@ const filterObj = (obj, ...allowedFields) => {
 };
 
 module.exports = {
+    setMeparams(req,res,next){
+        req.params.id = req.user.id; 
+        next(); 
+    },
+    
     async getMe(req, res, next) {
         try {
             const user = await User.findById(req.user.id);
@@ -26,18 +32,7 @@ module.exports = {
         }
     },
     
-    async deleteMe(req, res, next) {
-        try {
-            const user = await User.findByIdAndDelete(req.user.id);
-            return res.status(204).json({
-                status : 'success',
-                data : user
-            });
-        }
-        catch (error) {
-            return next(error);
-        }
-    },
+    deleteMe : factory.deleteOne(User),
 
     async updatePassword(req, res, next) {
         try {

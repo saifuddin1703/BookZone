@@ -3,6 +3,9 @@ const router = express.Router();
 const { authenticate, restrictTo } = require('../auth/middlewares');
 const bookController = require('./controller/bookController');
 const upload = require('../../utils/uploadHandler');
+const reviewRoute = require('../review');
+
+router.use('/:book/review', reviewRoute);
 
 router.get('/', authenticate, bookController.getBooks);
 

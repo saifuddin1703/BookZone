@@ -6,6 +6,7 @@ const bookRoute = require('./book');
 const cartRoute = require('./cart');
 const orderRoute = require('./order');
 const wishlistRoute = require('./wishlist');
+const reviewRoute = require('./review');
 
 
 router.use('/auth', authRoute);
@@ -14,6 +15,7 @@ router.use('/book', bookRoute);
 router.use('/cart',cartRoute); 
 router.use('/order',orderRoute);
 router.use('/wishlist',wishlistRoute);
+router.use('/review',reviewRoute);
 
 router.get('/', (req, res) => {
   res.send('Welcome to the Bookzone !');
