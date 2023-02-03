@@ -45,4 +45,18 @@ cartSchema.pre('update', async function(next) {
     }
 });
 
+
+cartSchema.pre(/^find/,function(next) {
+    // this points to the query object 
+    this.populate({
+        path : 'items',
+        populate : {
+            path : 'book',
+            select : '-__v -createdAt -updatedAt'
+        },
+        select : '-__v -createdAt -updatedAt'
+    }).select('-__v -createdAt -updatedAt');
+
+    next();
+})
 module.exports = new mongoose.model('Cart', cartSchema);

@@ -1,5 +1,6 @@
 const {User} = require('../../../../models');
 const AppError = require('../../../../utils/AppError');
+const factory = require('../../../../utils/handlerFactory');
 
 const filterObj = (obj, ...allowedFields) => {
     const newObj = {};
@@ -10,34 +11,28 @@ const filterObj = (obj, ...allowedFields) => {
 };
 
 module.exports = {
-    async getMe(req, res, next) {
-        try {
-            const user = await User.findById(req.user.id);
-            if (!user) {
-                return next(new AppError('User not found', 404));
-            }
-            return res.status(200).json({
-                status : 'success',
-                data : user
-            });
-        }
-        catch (error) {
-            return next(error);
+    setMeparams(req,res,next){
+        req.params.id = req.user.id; 
+        next(); 
+    },
+
+    blockFielsUpdate(...fields) {
+        return (req,res,next)=>{
+            fields.forEach(field=>{
+                if(req.body[field]){
+                    return next(new AppError(`You cannot update ${field} here`, 400));
+                }
+            })
+
+            next(); 
         }
     },
     
-    async deleteMe(req, res, next) {
-        try {
-            const user = await User.findByIdAndDelete(req.user.id);
-            return res.status(204).json({
-                status : 'success',
-                data : user
-            });
-        }
-        catch (error) {
-            return next(error);
-        }
-    },
+    getMe : factory.getOne(User),
+
+    updateMe : factory.updateOne(User),
+
+    deleteMe : factory.deleteOne(User),
 
     async updatePassword(req, res, next) {
         try {
@@ -68,27 +63,5 @@ module.exports = {
         }catch (error) {
             return next(error);
         }
-    },
-
-    async updateMe(req, res, next) {
-        try {
-          
-            if(req.password) {  
-                return next(new AppError('You cannot update password here', 400));
-            }
-
-            const filteredBody = filterObj(req.body, 'name', 'email','phone');
-
-            const user = await User.findByIdAndUpdate(req.user.id, filteredBody, {new : true, runValidators : true});
-
-            return res.status(200).json({
-                status : 'success',
-                data : user
-            });
-        }
-        catch (error) {
-            return next(error);
-        }
-    }
-    
+    }    
 }

@@ -12,14 +12,7 @@ module.exports = {
                 return next(new AppError('User not found', 404));
             }
 
-            const cart = await Cart.findOne({user : user._id})
-                .populate({
-                    path : 'items',
-                    populate : {
-                        path : 'book'
-                    }
-                }
-            );
+            const cart = await Cart.findOne({user : user._id});
 
             if (!cart) {
                 return res.status(200).json({

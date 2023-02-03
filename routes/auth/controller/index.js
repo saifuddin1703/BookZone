@@ -121,19 +121,19 @@ module.exports = {
     async resetPassword(req, res,next) {
         try {
             if (!req.body.otp || !req.body.password) {
-                return next(new Error('Invalid otp or password'));
+                return next(new AppError('Invalid otp or password',400));
             }
             // checking if the user already exists
             const otp = await OTP.findOne({ otp: req.body.otp });
 
             if (!otp) {
-                return next(new Error('Invalid otp'));
+                return next(new AppError('Invalid otp',400));
             }
 
             const user = await User.findOne({ _id: otp.userId });
 
             if (!user) {
-                return next(new Error('Invalid otp'));
+                return next(new AppError('Invalid otp',400));
             }
 
             user.password = req.body.password;

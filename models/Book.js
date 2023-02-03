@@ -21,7 +21,12 @@ const bookSchema = new mongoose.Schema({
     book_depository_stars : {
         type : Number,
         required : true,
-        default : 4.5
+        default : 4.5,
+        set : val => Math.round(val*10) / 10
+    },
+    ratingsQuantity : {
+        type : Number,
+        default : 0
     },
     price : {
         type : Number,
@@ -35,6 +40,25 @@ const bookSchema = new mongoose.Schema({
         type : Date,
         default : Date.now
     }
+},
+{
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+});
+
+bookSchema.virtual('reviews', {
+    foreignField: 'book',
+    localField: '_id',
+    ref: 'Review'
+});
+
+bookSchema.pre(/^find/, function(next) {
+    this.populate({
+        path: 'reviews',
+        select: '-__v'
+    }).select('-__v -id -createdAt -updatedAt');
+
+    next();
 });
 
 module.exports = mongoose.model('Book', bookSchema);

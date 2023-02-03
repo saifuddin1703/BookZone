@@ -17,7 +17,7 @@ const OTPSchema = new mongoose.Schema({
     }
 });
 
-OTPSchema.index({ createdAt: 1 }, { expireAfterSeconds: 600 });
+OTPSchema.index({ createdAt: 1,otp : 1 }, { expireAfterSeconds: 600 });
 
 const OTP = mongoose.model('OTP', OTPSchema);
 
