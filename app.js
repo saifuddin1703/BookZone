@@ -19,7 +19,7 @@ const limiter = rateLimit({
     message: 'Too many requests from this IP, please try again after an hour'
 });
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV.trim() === 'development') {
     app.use(morgan('dev'));
 }
 
@@ -51,6 +51,9 @@ app.use('/api',limiter);
 
 app.use('/api', routes);
 
+app.get('/',(req,res,next)=>{
+    res.send('Welcome to Book zone! api is on /api route')
+})
 
 // if request is not handled by any route
 app.all('*', (req, res, next) => {

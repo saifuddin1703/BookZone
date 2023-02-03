@@ -21,7 +21,12 @@ const bookSchema = new mongoose.Schema({
     book_depository_stars : {
         type : Number,
         required : true,
-        default : 4.5
+        default : 4.5,
+        set : val => Math.round(val*10) / 10
+    },
+    ratingsQuantity : {
+        type : Number,
+        default : 0
     },
     price : {
         type : Number,

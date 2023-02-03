@@ -29,7 +29,7 @@ module.exports = {
     getBook : catchAsync(async(req, res,next) => {
             const {id} = req.params;
             const book = await Book.findById(id);
-            // console.log(book);
+            console.log(book);
             if (book) {
                 return res.status(200).json({
                     status : 'success',

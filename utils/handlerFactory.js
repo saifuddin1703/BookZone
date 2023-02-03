@@ -22,12 +22,12 @@ module.exports = {
 
             const {id} = req.params;
 
-            console.log(req.body);
-            console.log(id);
+            // console.log(req.body);
+            // console.log(id);
 
             const doc = await Model.findByIdAndUpdate(id, req.body, {new: true, runValidators: true});
 
-            console.log(doc);
+            // console.log(doc);
             if(!doc){
                 return next(new AppError('document not found',404));
             }
@@ -57,6 +57,22 @@ module.exports = {
                     data : doc
                 }
             );
+        }
+    ),
+
+    getOne : (Model,popOptions) => catchAsync(async(req, res,next) => {
+            const {id} = req.params;
+
+            const doc = await Model.findById(id).populate(popOptions);
+            // console.log(doc);
+            if (doc) {
+                return res.status(200).json({
+                    status : 'success',
+                    data : doc
+                });
+            }else{
+                next(new AppError('Document not found',404));
+            }
         }
     )
 }

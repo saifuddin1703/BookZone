@@ -15,23 +15,23 @@ module.exports = {
         req.params.id = req.user.id; 
         next(); 
     },
-    
-    async getMe(req, res, next) {
-        try {
-            const user = await User.findById(req.user.id);
-            if (!user) {
-                return next(new AppError('User not found', 404));
-            }
-            return res.status(200).json({
-                status : 'success',
-                data : user
-            });
-        }
-        catch (error) {
-            return next(error);
+
+    blockFielsUpdate(...fields) {
+        return (req,res,next)=>{
+            fields.forEach(field=>{
+                if(req.body[field]){
+                    return next(new AppError(`You cannot update ${field} here`, 400));
+                }
+            })
+
+            next(); 
         }
     },
     
+    getMe : factory.getOne(User),
+
+    updateMe : factory.updateOne(User),
+
     deleteMe : factory.deleteOne(User),
 
     async updatePassword(req, res, next) {
@@ -63,27 +63,5 @@ module.exports = {
         }catch (error) {
             return next(error);
         }
-    },
-
-    async updateMe(req, res, next) {
-        try {
-          
-            if(req.password) {  
-                return next(new AppError('You cannot update password here', 400));
-            }
-
-            const filteredBody = filterObj(req.body, 'name', 'email','phone');
-
-            const user = await User.findByIdAndUpdate(req.user.id, filteredBody, {new : true, runValidators : true});
-
-            return res.status(200).json({
-                status : 'success',
-                data : user
-            });
-        }
-        catch (error) {
-            return next(error);
-        }
-    }
-    
+    }    
 }
