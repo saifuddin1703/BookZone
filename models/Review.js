@@ -83,6 +83,8 @@ reviewSchema.post(/^findOneAnd/,async function(doc){
     await doc.constructor.calcAverageRating(doc.book);
     console.log(doc);
 });
+
+
 // to set one user can review a book only once i.e user-book should be unique 
-// reviewSchema.index({ user : 1, book : 1 },{unique : true})
+reviewSchema.index({ user : 1, book : 1 },{unique : true})
 module.exports = mongoose.model('Review', reviewSchema);

@@ -1,33 +1,15 @@
 const { get } = require('mongoose');
 const {User} = require('../../../models/');
 const AppError = require('../../../utils/AppError');
+const factory = require('../../../utils/handlerFactory');
 
 
 module.exports = {
     
-    async getAllUser(req, res, next) {
-        try {
-            const users = await User.find();
-            return res.status(200).json({
-                status : 'success',
-                data : users
-            });
-        }
-        catch (error) {
-            return next(error);
-        }
-    },
-    async getUserById(req, res, next) {
-        try {
-            const user = await User.findById(req.params.id);
-            return res.status(200).json({
-                status : 'success',
-                data : user
-            });
-        }
-        catch (error) {
-            return next(error);
-        }
-    },
+    getAllUser : factory.getAll(User),
+    getUserById : factory.getOne(User),
+    createUser : factory.createOne(User),
+    updateUser : factory.updateOne(User),
+    deleteUser : factory.deleteOne(User)
     
 }

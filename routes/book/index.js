@@ -18,7 +18,7 @@ router.post('/',
     bookController.createBooks
 );
 
-router.put('/:id',
+router.patch('/:id',
     authenticate,
     restrictTo('admin'),
     bookController.updateBook
