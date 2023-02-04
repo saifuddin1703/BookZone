@@ -5,40 +5,21 @@ const csv = require('csv-parser');
 const fileHandler = require('../../../utils/fileHandler');
 const ApiFeatures = require('../../../utils/apiFeatures');
 const catchAsync = require('../../../utils/catchAsync');
+const factory = require('../../../utils/handlerFactory');
 
 module.exports = {
-    getBooks : catchAsync(async(req, res,next) =>{
-         
-            const features = new ApiFeatures(Book.find(), req.query);
+    getBooks : factory.getAll(Book),
 
-            features
-                .filter()
-                .sort()
-                .limitFields()
-                .paginate();
+    getBook : factory.getOne(Book,"Book"),
 
-            const books = await features.query;
-
-            res.status(200).json(
-                {
-                    status : 'success',
-                    data : books
-                }
-            );
-    }),
-    getBook : catchAsync(async(req, res,next) => {
-            const {id} = req.params;
-            const book = await Book.findById(id);
-            console.log(book);
-            if (book) {
-                return res.status(200).json({
-                    status : 'success',
-                    data : book
-                });
-            }else{
-                throw new AppError('Book not found',404);
-            }
-    }),
+    // deleteAllBooks : async ()=>{
+    //     try {
+    //         await Book.deleteMany();
+    //     } catch (error) {
+    //         console.log(error);
+    //         throw new AppError('Error deleting books',500);
+    //     }
+    // },
 
     createBooks : catchAsync(async (req, res,next)=>{
         // console.log(req.file)
@@ -49,6 +30,7 @@ module.exports = {
 
         const books = await fileHandler.readCSV(req.file.path);
         console.log(books[0]);
+        await Book.deleteMany();
         await Book.insertMany(books);
 
         res.status(200).json({
@@ -56,42 +38,10 @@ module.exports = {
             data : "Books uploaded successfully"
         });
     }),
+
+    createBook : factory.createOne(Book),
     
-    updateBook : catchAsync(async (req, res,next)=>{
+    updateBook : factory.updateOne(Book,"Book"),
 
-            const {id} = req.params;
-            const book = await Book
-                .findByIdAndUpdate(id, req.body, {new: true, runValidators: true})
-                
-            if (book) {
-                return res.status(200).json(
-                    {
-                        status : 'success',
-                        data : book
-                    }
-                );
-            }else{
-                throw new AppError('Book not found',404);
-            }
-
-    }),
-
-    deleteBook: catchAsync(async (req, res,next)=>{
-        try {
-            const {id} = req.params;
-            const book = await Book.findByIdAndDelete(id);
-            if (book) {
-                return res.status(200).json(
-                    {
-                        status : 'success',
-                        data : book
-                    }
-                );
-            }else{
-                throw new AppError('Book not found',404);
-            }
-        } catch (error) {
-            next(error);
-        }
-    }),
+    deleteBook: factory.deleteOne(Book,"Book"),
 }

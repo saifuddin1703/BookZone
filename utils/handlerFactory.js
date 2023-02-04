@@ -17,7 +17,7 @@ module.exports = {
         }
     ),
 
-    updateOne : Model =>  catchAsync(
+    updateOne : (Model,ModelName) =>  catchAsync(
         async (req, res, next) => {
 
             const {id} = req.params;
@@ -29,7 +29,7 @@ module.exports = {
 
             // console.log(doc);
             if(!doc){
-                return next(new AppError('document not found',404));
+                return next(new AppError(`${ModelName} not found`,404));
             }
 
             res.status(200).json(
@@ -41,14 +41,14 @@ module.exports = {
         }
     ),
 
-    deleteOne : Model =>catchAsync(
+    deleteOne : (Model,ModelName) =>catchAsync(
         async (req, res, next) => {
             const {id} = req.params;
 
             const doc = await Model.findByIdAndDelete(id);
 
             if(!doc){
-                return next(new AppError('document not found',404));
+                return next(new AppError(`${ModelName} not found`,404));
             }
 
             res.status(204).json(
@@ -60,7 +60,7 @@ module.exports = {
         }
     ),
 
-    getOne : (Model,popOptions) => catchAsync(async(req, res,next) => {
+    getOne : (Model,ModelName,popOptions) => catchAsync(async(req, res,next) => {
             const {id} = req.params;
 
             const doc = await Model.findById(id).populate(popOptions);
@@ -71,8 +71,28 @@ module.exports = {
                     data : doc
                 });
             }else{
-                next(new AppError('Document not found',404));
+                next(new AppError(`${ModelName} not found`,404));
             }
         }
+    ),
+
+    getAll : Model => catchAsync(
+        async (req, res, next) => {
+                
+                const apiFeatures = new ApiFeatures(Model.find(), req.query)
+                        .filter()
+                        .sort()
+                        .limitFields()
+                        .paginate();
+    
+                const docs = await apiFeatures.query;
+    
+                res.status(200).json(
+                    {
+                        status : 'success',
+                        data : docs
+                    }
+                );
+            }
     )
 }
