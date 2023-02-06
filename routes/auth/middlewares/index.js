@@ -6,11 +6,13 @@ const { promisify } = require('util');
 module.exports = {
     async authenticate(req, res, next) {
         try {
-            if (!req.headers.authorization) {
-                return next(new AppError('Please provide an authorization token'));
+            let token; 
+            if (req.headers.authorization) {
+                token = req.headers.authorization.split(' ')[1];
+            }else if(req.cookies.jwt){
+                token = req.cookies.jwt;
             }
-            const token = req.headers.authorization.split(' ')[1];
-
+            
             if(!token){
                 return next(new AppError('Please provide an authorization token'));
             }
@@ -26,10 +28,9 @@ module.exports = {
                 return next(new AppError('User recently changed password', 401));
             }
 
-            req.user = {
-                id: user._id
-            };
-            console.log(user)
+            req.user = user;
+            req.user.id = user._id;
+            console.log(req.user)
             // console.log(decoded.userId);
             next();
         } catch (error) {

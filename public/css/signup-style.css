@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto:ital,wght@0,400;1,400&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --primary-color: #f5f5f5;
+    --secondary-color: #000;
+    --primary-text-color: #183056;
+    --secondary-text-color: #577592;
+    --accent-color: #2294ed;
+    --accent-color-dark: #1d69a3;
+    --padding-inline-section: 20px;
+    --star-size: 20px;
+    --star-color: #fff;
+    --star-background: #fc0;
+}
+
+.flex {
+    display: flex;
+}
+
+.primary-btn{
+    background-color: var(--accent-color);
+    border-radius: 4px;
+    padding: 10px 20px;
+    color: white !important;
+    box-shadow: 0 0 2px var(--secondary-color);
+    text-align: center;
+    transition: 0.2s ease-out;
+}
+
+.signup-container{
+    flex-direction: column;
+    max-width: 400px;
+    margin: 0 auto;
+    margin-top: 150px;
+    align-self: center;
+    box-shadow: 0 0 10px #dcdcdc;
+    padding: 20px;
+}
+
+h2{
+    margin-bottom: 20px;
+}
+
+input{
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #818282;
+    padding-left: 10px;
+    margin-top: 10px;
+}
+
+h4{
+    font-weight: 560;
+    color: #626363;
+    margin-top: 10px;
+}
+
+.signup-btn-action{
+    margin-top: 20px;
+}
+
+.div{
+    text-align: center;
+    margin-top: 20px;
+}

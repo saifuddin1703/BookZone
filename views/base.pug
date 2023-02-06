@@ -1,0 +1,23 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  link(rel='stylesheet' href='/css/style.css')
+  title Document
+// nav bar
+.container
+  .nav.flex
+    h1 BookZone
+    .navlinks.flex
+      a.login-btn.secondary-btn(href='/login') Login
+      a.signup-btn.primary-btn(href='/signup') Signup
+    //-   a(href='#') Home
+    //-   a(href='#') Wishlist
+    //-   a(href='#') Cart
+    //-   a(href='#') Orders
+// main content
+block content 
+
+script(src='https://kit.fontawesome.com/cb7e3d4712.js' crossorigin='anonymous')
+script(src='/js/script.js')

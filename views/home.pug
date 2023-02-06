@@ -1,0 +1,19 @@
+extends base
+
+block content 
+    .container.content.flex
+        include filters 
+        .books
+            each book in books
+                .book-box.flex
+                    .book-image.flex
+                        img.wishlist-icon(src='./assets/heart-regular.svg')
+                        img.image(src="/assets/images.jpg" alt="book image")
+                    h3= book.name   
+                    p by #{book.author}
+                    .stars(style=`--rating: ${book.book_depository_stars};` aria-label='Rating of this product is 2.3 out of 5.')
+                    h4= book.format
+                    p= book.category
+                    h2 &#x20B9; #{Math.round(book.price)}
+                    a.add-to-cart.secondary-btn(href='#') Add to cart
+                    a.add-to-cart.primary-btn(href='#') Buy now

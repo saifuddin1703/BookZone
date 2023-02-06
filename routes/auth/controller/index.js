@@ -4,6 +4,7 @@ const { isEmail, sendEmail } = require('../../../utils');
 const otpGenerator = require('otp-generator');
 const OTP = require('../../../models/OTP');
 const AppError = require('../../../utils/AppError');
+const Email = require('../../../utils/email');
 
 function signJWT(userId) {
     return new Promise((resolve, reject) => {
@@ -24,6 +25,20 @@ function signJWT(userId) {
 }
 
 module.exports = {
+
+    createSendToken(req,res,next){
+        const token = signJWT(req.user._id);
+        res.cookie('jwt',token,{
+            expires : new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+            httpOnly : true,
+            secure : true
+        });
+        return res.status(201).json({ 
+            status : 'success',
+            token : token,
+         });
+    },
+
     async signup(req, res,next) {
         try {
             if (!req.body.username || !req.body.password || !isEmail(req.body.username)) {
@@ -42,6 +57,13 @@ module.exports = {
             console.log(newUser);
 
             const token = await signJWT(newUser._id);
+
+            res.cookie('jwt',token,{
+                expires : new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+                httpOnly : true,
+                secure : true
+            });
+
             return res.status(201).json({ 
                 status : 'success',
                 token : token,
@@ -69,6 +91,12 @@ module.exports = {
             }
 
             const token = await signJWT(user._id);
+
+            res.cookie('jwt',token,{
+                expires : new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+                httpOnly : true,
+                // secure : true
+            });
 
             return res.status(200).json({
                 status : 'success',
@@ -99,6 +127,8 @@ module.exports = {
                  lowerCaseAlphabets: false,
             });
 
+            const email = new Email(user);
+
             const newOTP = new OTP({
                 userId : user._id,
                 otp : otp,
@@ -107,7 +137,7 @@ module.exports = {
             await newOTP.save();
 
             console.log(req.body.email);
-            await sendEmail(req.body.email, 'Reset Password', `<h1>Hi </h1><p>Your OTP is : </p><p>OTP : ${otp}</p><p>Valid for 10 mins</p>`);
+            await email.sendPassowrdResetMail(otp);
             
             return res.status(200).json({
                 status : 'success',

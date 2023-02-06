@@ -15,6 +15,8 @@
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
     "cloudinary": "^1.33.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "csv-parser": "^3.0.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
@@ -29,6 +31,7 @@
     "nodemailer": "^6.8.0",
     "nodemon": "^2.0.20",
     "otp-generator": "^4.0.0",
+    "pug": "^3.0.2",
     "sib-api-v3-sdk": "^8.5.0",
     "xss-clean": "^0.1.1"
   },
