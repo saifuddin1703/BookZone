@@ -1,0 +1,38 @@
+.filters
+  #formate-box.formate-box.filter-box
+    h4 Formate
+    #formates-list.filter-list
+    h5#more-less-formates.more-less
+      u See more
+  #catagory-box.catagory-box.filter-box
+    h4 Catagory
+    #catagories-list.filter-list
+    h5#more-less-catagories.more-less
+      u See more
+  #rating-box.rating-box.filter-box
+    h4 Rating
+    .rating-list
+      .star
+        .stars(style='--rating: 4;' aria-label='Rating of this product is 2.3 out of 5.')
+        |                         &amp;up
+      .star
+        .stars(style='--rating: 3;' aria-label='Rating of this product is 2.3 out of 5.')
+        |                         &amp;up
+      .star
+        .stars(style='--rating: 2;' aria-label='Rating of this product is 2.3 out of 5.')
+        |                         &amp;up
+      .star
+        .stars(style='--rating: 1;' aria-label='Rating of this product is 2.3 out of 5.')
+        |                         &amp;up
+  #price-box.price-box.filter-box
+    h4 Catagory
+    #catagories-list.filter-list
+      p.filter-item Under &#x20B9;100
+      p.filter-item &#x20B9;100-&#x20B9;200
+      p.filter-item &#x20B9;200-&#x20B9;500
+      p.filter-item &#x20B9;500-&#x20B9;1000
+      p.filter-item Above &#x20B9;1000
+    .price-range.flex
+      input#min-range.input(type='text' placeholder='  ₹ Min')
+      input#max-range.input(type='text' placeholder='  ₹ Max')
+      button#go-btn.go-btn Go

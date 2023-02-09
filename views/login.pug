@@ -1,0 +1,20 @@
+extends base
+
+block content 
+    doctype html
+    head
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title Login
+    link(rel='stylesheet' href='/css/login-style.css')
+    .login-container.flex
+        h2 Login
+        h4 Email
+        input#email(type='email' name='email' placeholder='Enter your email')
+        h4 Password
+        input#password(type='password' name='password' placeholder='Enter your Password')
+        .login-btn-action.primary-btn Login
+        .div
+            | Don't have an account? 
+            a(href='/signup') Signup

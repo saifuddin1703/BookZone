@@ -42,20 +42,28 @@ module.exports = {
                 quantity : !req.body.quantity ? 1 : req.body.quantity,
             }; 
 
-            const cartItem = await CartItem.create(cartItemBody);
+            // checking is there any cart item exists for the book and the cart
 
-            if (cart) {            
-                cart.items.push(cartItem._id);
-                cart.itemCount = cart.items.length; 
-                cart = await cart.save();
+            let cartItem = CartItem.findOne({book : req.body.bookId, cart : cart._id});
+
+            if (cartItem) {
+                cartItem.quantity = cartItem.quantity + 1;
+                cartItem = await cartItem.save();
             }else{
-                const cartBody = {
-                    user : req.user.id,
-                    items : [cartItem],
-                    itemCount : 1
-                };
+                cartItem = await CartItem.create(cartItemBody);
+                if (cart) {            
+                    cart.items.push(cartItem._id);
+                    cart.itemCount = cart.items.length; 
+                    cart = await cart.save();
+                }else{
+                    const cartBody = {
+                        user : req.user.id,
+                        items : [cartItem],
+                        itemCount : 1
+                    };
 
-                cart = await Cart.create(cartBody);
+                    cart = await Cart.create(cartBody);
+                }
             }
 
             return res.status(200).json({
@@ -83,6 +91,10 @@ module.exports = {
                 return next(new AppError('Cart item not found', 404));
             }
 
+            if (req.body.quantity < 1) {
+                return next(new AppError('Quantity cannot be less than 1', 400));
+            }
+            
             cartItem.quantity = req.body.quantity;
             await cartItem.save();
 

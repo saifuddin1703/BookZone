@@ -1,16 +1,23 @@
+const path = require('path');
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
+const viewRoute = require('./routes/view');
 const globalErrorController = require('./utils/errorHandler');
 const AppError = require('./utils/AppError');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean'); 
-const hpp = require('hpp')
+const hpp = require('hpp'); 
+const cors = require('cors');
+const pug = require('pug');
+const cookieParser = require('cookie-parser');
 
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
 
 //rate limiter
 const limiter = rateLimit({
@@ -25,7 +32,10 @@ if (process.env.NODE_ENV.trim() === 'development') {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(cors());
 
+app.use(express.static(path.join(__dirname,'public'))); // serving static files
 // sanitize data against NoSQL query injection
 app.use(mongoSanitize());
 
@@ -39,21 +49,23 @@ app.use(hpp({
         'book_depository_stars',
         'price',
         'category',
-    ]
+    ],
 }));
 
 // setting security HTTP headers
-app.use(helmet());
-
+app.use(helmet(
+    {
+        contentSecurityPolicy: false,
+    }
+));
 
 // rate limiter middleware
 app.use('/api',limiter); 
 
 app.use('/api', routes);
+app.use('/', viewRoute);
 
-app.get('/',(req,res,next)=>{
-    res.send('Welcome to Book zone! api is on /api route')
-})
+
 
 // if request is not handled by any route
 app.all('*', (req, res, next) => {

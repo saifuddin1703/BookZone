@@ -1,0 +1,29 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(http-equiv='Content-Security-Policy' content="default-src * self blob: data: gap:; style-src * self 'unsafe-inline' blob: data: gap:; script-src * 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; object-src * 'self' blob: data: gap:; img-src * self 'unsafe-inline' blob: data: gap:; connect-src self * 'unsafe-inline' blob: data: gap:; frame-src * self blob: data: gap:;")
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  link(rel='stylesheet' href='/css/style.css')
+  title Document
+// nav bar
+.container
+  .nav.flex
+    h1 BookZone
+    .navlinks.flex
+      a(href='/') Home
+      if (user)
+        a(href='#') Wishlist
+        a(href='#') Cart
+        a(href='#') Orders
+        a.logout-btn(href='#') LogOut
+        a(href='#') Hello! #{user.name.split(' ')[0]}
+      else 
+        a.login-btn.secondary-btn(href='/login') Login
+        a.signup-btn.primary-btn(href='/signup') Signup
+// main content
+block content 
+
+script(src='https://kit.fontawesome.com/cb7e3d4712.js' crossorigin='anonymous')
+//- script(src='https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js' crossorigin='anonymous')
+script(src='/js/output.js')
+

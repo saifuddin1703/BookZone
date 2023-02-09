@@ -1,0 +1,21 @@
+extends base
+
+block content 
+    doctype html
+    head
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title Signup 
+    link(rel='stylesheet' href='/css/signup-style.css')
+    .signup-container.flex
+        h2 Signup 
+        h4 Email
+        input#email(type='email' name='email' placeholder='Enter your email')
+        h4 Password
+        input#password(type='password' name='password' placeholder='Enter your Password')
+        .signup-btn-action.primary-btn Signup
+        .div
+            | Already have an account? 
+            a(href='/login') Login
+    script(src='/js/auth.js')

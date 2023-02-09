@@ -16,7 +16,7 @@ module.exports = {
                         author : row.author,
                         format : row.format,
                         book_depository_stars : row.book_depository_stars,
-                        price : Number(row.price) * 82.27,
+                        price : Math.round(Number(row.price) * 82.27),
                         category : row.category
                     }
                     results.push(book);
