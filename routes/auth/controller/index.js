@@ -106,6 +106,19 @@ module.exports = {
             return next(error);
         }
     },
+
+    logout(req, res,next) {
+        res.cookie('jwt','loggedout',{
+            expires : new Date(Date.now() + 10 * 1000),
+            httpOnly : true,
+            secure : true
+        });
+        return res.status(200).json({
+            status : 'success',
+            message : 'Logged out successfully'
+        });
+    },
+
     async forgetPassword(req, res,next) {
         try {
             if (!req.body.email || !isEmail(req.body.email)) {

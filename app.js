@@ -49,11 +49,15 @@ app.use(hpp({
         'book_depository_stars',
         'price',
         'category',
-    ]
+    ],
 }));
 
 // setting security HTTP headers
-app.use(helmet());
+app.use(helmet(
+    {
+        contentSecurityPolicy: false,
+    }
+));
 
 // rate limiter middleware
 app.use('/api',limiter); 

@@ -8,6 +8,8 @@ router.get('/', (req, res,next) => {
 
 router.post('/login', authController.login); 
 
+router.get('/logout', authController.logout); 
+
 router.post('/signup',authController.signup);
 
 router.post('/forgetPassword', authController.forgetPassword);

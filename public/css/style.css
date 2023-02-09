@@ -208,3 +208,7 @@ background-clip: text;
 .go-btn{
     padding: 10px;
 }
+
+a{
+    text-decoration: none;
+}

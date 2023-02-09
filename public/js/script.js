@@ -1,4 +1,4 @@
-const formates = [
+export const formates = [
     'Paperback',
     'Hardback',
     'Mixed media product',
@@ -27,7 +27,7 @@ const formates = [
     'Multiple copy pack'
 ]
 
-const catagories = [
+export const catagories = [
     'Medical',
     'Science-Geography',
     'Art-Photography',
@@ -63,7 +63,7 @@ const catagories = [
     'Travel-Holiday-Guides'
 ]
 
-getFilter = (item,index)=>{
+const getFilter = (item,index)=>{
     let div = document.createElement('div')
     div.className = `filter ${item} filter-item`
     let input = document.createElement('input')
@@ -79,44 +79,20 @@ getFilter = (item,index)=>{
     return div
 }
 
-function loadFilters(node,data){
+export const loadFilters = (node,data)=> {
     console.log(data)
     data.forEach((item, index)=>{
         node.appendChild(getFilter(item,index))
     }); 
 }
 
-function removeFilters(node){
+export const removeFilters = (node) => {
     let i = node.childElementCount; 
     while (i-- > 5) {
         node.removeChild(node.lastChild);
     }
 }
-function addclicklisterner(node,listnode,data){
-    node.addEventListener('click',()=>{
-        // console.log(node.childElementCount)
-        if(listnode.childElementCount == 5){
-            loadFilters(listnode,data.slice(5,data.length))
-            node.innerHTML = '<u>See less</u>'; 
-            // more_less.
-        }else{
-            removeFilters(listnode); 
-            node.innerHTML = '<u>See more</u>'; 
-        }
-    }); 
-}
 
-//formate filter list
-const formate_list = document.getElementById('formates-list')
-loadFilters(formate_list,formates.slice(0,5)); 
-const more_less_formates = document.getElementById('more-less-formates')
-addclicklisterner(more_less_formates,formate_list,formates);
-
-//catagory filter list
-const catagory_list = document.getElementById('catagories-list')
-loadFilters(catagory_list,catagories.slice(0,5)); 
-const more_less_catagories = document.getElementById('more-less-catagories')
-addclicklisterner(more_less_catagories,catagory_list,catagories);
 
 
 

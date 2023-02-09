@@ -39,6 +39,33 @@ module.exports = {
         }
     },
 
+    async isLoggedIn(req, res, next) {
+        try {
+            if(req.cookies.jwt){
+                token = req.cookies.jwt;
+                
+                const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+                // console.log(typeof(decoded.userId))
+                const user = await User.findById(decoded.userId);
+                if (!user) {
+                    return next();
+                }
+
+                if(user.changedPasswordAfter(decoded.iat)){
+                    return next();
+                }
+
+                res.locals.user = user;
+                return next();
+            }
+            
+            next();
+        } catch (error) {
+            // console.log(error);
+            return next();
+        }
+    },
+
     restrictTo(...roles) {
         return async(req, res, next) => {
             const user = await User.findById(req.user.id);

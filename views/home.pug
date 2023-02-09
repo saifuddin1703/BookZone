@@ -2,14 +2,15 @@ extends base
 
 block content 
     .container.content.flex
-        include filters 
+        //- include filters 
         .books
             each book in books
                 .book-box.flex
                     .book-image.flex
                         img.wishlist-icon(src='./assets/heart-regular.svg')
-                        img.image(src="/assets/images.jpg" alt="book image")
-                    h3= book.name   
+                        img.image(src='/assets/images.jpg' alt="book image" crossorigin="anonymous")
+                    a(href=`/book/${book._id}`)
+                        h3= book.name   
                     p by #{book.author}
                     .stars(style=`--rating: ${book.book_depository_stars};` aria-label='Rating of this product is 2.3 out of 5.')
                     h4= book.format
