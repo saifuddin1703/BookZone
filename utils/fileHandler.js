@@ -19,7 +19,10 @@ module.exports = {
                         price : Math.round(Number(row.price) * 82.27),
                         category : row.category
                     }
-                    results.push(book);
+
+                    if(book.image !== '' && book.name !== '' && book.author !== '' && book.format !== '' && book.book_depository_stars !== '' && book.price !== '' && book.category !== ''){
+                        results.push(book);
+                    }
                 })
                 .on('end', () => {
                     resolve(results);
