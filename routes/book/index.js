@@ -7,9 +7,9 @@ const reviewRoute = require('../review');
 
 router.use('/:book/review', reviewRoute);
 
-router.get('/', authenticate, bookController.getBooks);
+router.get('/', bookController.getBooks);
 
-router.get('/:id', authenticate, bookController.getBook);
+router.get('/:id', bookController.getBook);
 
 router.post('/', 
     authenticate,
