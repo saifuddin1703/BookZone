@@ -1,0 +1,19 @@
+version: '3.9'
+services:
+  app:
+    build: .
+    ports:
+      - 3000:3000
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - PORT=3000
+      - MONGODB_URL_PROD=${MONGODB_URL_PROD}
+      - MONGODB_URL_TEST=${MONGODB_URL_TEST}
+      - JWT_SECRET=${JWT_SECRET}
+      - EMAIL=${EMAIL}
+      - PASSWORD=${PASSWORD}
+      - OAUTH_CLIENTID=${OAUTH_CLIENTID}
+      - OAUTH_CLIENT_SECRET=${OAUTH_CLIENT_SECRET}
+      - OAUTH_REFRESH_TOKEN=${OAUTH_REFRESH_TOKEN}
+      - OAUTH_ACCESS_TOKEN=${OAUTH_ACCESS_TOKEN}
+      - SEND_IN_BLUE_API_KEY=${SEND_IN_BLUE_API_KEY}
