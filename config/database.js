@@ -6,11 +6,11 @@ module.exports = connectDb = async () => {
 
       let url = process.env.MONGODB_URL_TEST;
 
-      if (process.env.NODE_ENV === 'production') {
+      if (process.env.NODE_ENV.trim() === 'production') {
         url = process.env.MONGODB_URL_PROD;
       }
 
-      await mongoose.connect(url , {
+      mongoose.connect(url, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       }); 
