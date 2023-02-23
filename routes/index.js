@@ -18,7 +18,7 @@ router.use('/wishlist',wishlistRoute);
 router.use('/review',reviewRoute);
 
 router.get('/', (req, res) => {
-  res.send('Welcome to the Bookzone !');
+  res.send('Welcome to the Bookzone !!');
 });
 
 module.exports = router;
